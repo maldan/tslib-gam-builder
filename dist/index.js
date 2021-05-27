@@ -59,7 +59,7 @@ function build({ frontendPath, rootPath, backendPath, modules, copyModules, zipO
         console.log(`TEMP_DIR path ${TEMP_DIR}`);
         console.log(`Frontend path ${frontendPath}`);
         // Build frontend
-        ChildProcess.execSync(`cd ${frontendPath} && npm run build`);
+        ChildProcess.execSync(`cd ${frontendPath} && npm ci && npm run build`);
         console.log(`Build done`);
         // Copy data
         fs_extra_1.default.copySync(`${frontendPath}/build`, `${TEMP_DIR}/build`);

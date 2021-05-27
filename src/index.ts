@@ -42,7 +42,7 @@ export async function build({
   console.log(`Frontend path ${frontendPath}`);
 
   // Build frontend
-  ChildProcess.execSync(`cd ${frontendPath} && npm run build`);
+  ChildProcess.execSync(`cd ${frontendPath} && npm ci && npm run build`);
   console.log(`Build done`);
 
   // Copy data
