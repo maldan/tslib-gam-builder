@@ -48,7 +48,7 @@ const Nexe = require('nexe');
     }
   }
   return files_.map((x) => {
-    return x.replace(/\\/g, '/');
+    return x.replace(/\\/g, '/');//
   });
 }*/
 function build({ frontendPath, rootPath, backendPath, modules, copyModules, zipOut, }) {
