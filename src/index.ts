@@ -1,10 +1,9 @@
 import Fse from 'fs-extra';
 import * as Os from 'os';
 import * as ChildProcess from 'child_process';
+const Nexe = require('nexe');
 
-const TEMP_DIR = `${Os.tmpdir}/gam-tmp/${new Date().getTime()}`.replace(/\\/g, '/');
-
-function getFiles(dir: string, files_: string[]) {
+/*function getFiles(dir: string, files_: string[]) {
   files_ = files_ || [];
   const files = Fse.readdirSync(dir);
   for (const i in files) {
@@ -18,7 +17,7 @@ function getFiles(dir: string, files_: string[]) {
   return files_.map((x) => {
     return x.replace(/\\/g, '/');
   });
-}
+}*/
 
 export async function build({
   frontendPath,
@@ -35,6 +34,8 @@ export async function build({
   copyModules: string[];
   zipOut: string;
 }): Promise<void> {
+  const TEMP_DIR = `${Os.tmpdir}/gam-tmp/${new Date().getTime()}`.replace(/\\/g, '/');
+
   // Create temp dir
   Fse.mkdirSync(`${TEMP_DIR}/node_modules`, { recursive: true });
 
@@ -67,6 +68,65 @@ export async function build({
 
   const zipdir = require('zip-dir');
   await zipdir(TEMP_DIR, { saveTo: zipOut });
+}
+
+export async function backendBuild({
+  workingDir,
+  rootPath,
+  backendPath,
+  modules = [],
+  copyModules = [],
+  zipOut,
+  exeName = 'app.exe',
+  inputScript = '/bin/index.js',
+}: {
+  workingDir?: string;
+  rootPath: string;
+  backendPath: string;
+  modules?: string[];
+  copyModules?: string[];
+  zipOut?: string;
+  exeName?: string;
+  inputScript?: string;
+}): Promise<void> {
+  console.log(inputScript);
+  const TEMP_DIR = workingDir || `${Os.tmpdir}/gam-tmp/${new Date().getTime()}`.replace(/\\/g, '/');
+
+  // Create temp dir
+  Fse.mkdirSync(`${TEMP_DIR}/node_modules`, { recursive: true });
+
+  console.log(`TEMP_DIR path ${TEMP_DIR}`);
+
+  // Copy data
+  Fse.copySync(`${rootPath}/package.json`, `${TEMP_DIR}/package.json`);
+  console.log(`Copy done`);
+  console.log(`${backendPath}${inputScript}`);
+  // Build backend
+  //ChildProcess.execSync(
+  //  `nexe "${backendPath}${inputScript}" -t windows-x86-14.15.3 -o "${TEMP_DIR}/${exeName}" -r \"${backendPath}/node_modules/{${modules.join(
+  //    ',',
+  //  )}}/**/*\"`,
+  //);
+  await Nexe.compile({
+    // build: true,
+    input: `${backendPath}${inputScript}`,
+    targets: ['windows-x86-14.15.3'],
+    output: `${TEMP_DIR}/${exeName}`,
+    resources: [`${backendPath}/node_modules/{${modules.join(',')}}/**/*`],
+  });
+
+  // Copy modules
+  for (let i = 0; i < copyModules.length; i++) {
+    Fse.copySync(
+      `${backendPath}/node_modules/${copyModules[i]}`,
+      `${TEMP_DIR}/node_modules/${copyModules[i]}`,
+    );
+  }
+
+  if (zipOut) {
+    const zipdir = require('zip-dir');
+    await zipdir(TEMP_DIR, { saveTo: zipOut });
+  }
 }
 
 // Fse.copySync();
