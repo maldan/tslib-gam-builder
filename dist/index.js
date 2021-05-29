@@ -102,7 +102,8 @@ function backendBuild({ workingDir, rootPath, backendPath, modules = [], copyMod
         });
         // Copy modules
         for (let i = 0; i < copyModules.length; i++) {
-            fs_extra_1.default.copySync(`${backendPath}/node_modules/${copyModules[i]}`, `${TEMP_DIR}/node_modules/${copyModules[i]}`);
+            fs_extra_1.default.copySync(`${backendPath}/node_modules/${copyModules[i]}`, //
+            `${TEMP_DIR}/node_modules/${copyModules[i]}`);
         }
         if (zipOut) {
             const zipdir = require('zip-dir');
