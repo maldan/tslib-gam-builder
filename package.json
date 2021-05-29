@@ -1,6 +1,6 @@
 {
   "name": "@maldan/tslib-gam-builder",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "GAM App Builder",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
