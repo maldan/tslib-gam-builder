@@ -100,9 +100,9 @@ export async function backendBuild({
   console.log(`TEMP_DIR path ${TEMP_DIR}`);
 
   // Copy data
-  Fse.copySync(`${rootPath}/package.json`, `${TEMP_DIR}/package.json`);
-  console.log(`Copy done`);
-  console.log(`${backendPath}${inputScript}`);
+  //Fse.copySync(`${rootPath}/package.json`, `${TEMP_DIR}/package.json`);
+  //console.log(`Copy done`);
+  //console.log(`${backendPath}${inputScript}`);
   // Build backend
   //ChildProcess.execSync(
   //  `nexe "${backendPath}${inputScript}" -t windows-x86-14.15.3 -o "${TEMP_DIR}/${exeName}" -r \"${backendPath}/node_modules/{${modules.join(

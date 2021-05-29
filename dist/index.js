@@ -84,9 +84,9 @@ function backendBuild({ workingDir, rootPath, backendPath, modules = [], copyMod
         fs_extra_1.default.mkdirSync(`${TEMP_DIR}/node_modules`, { recursive: true });
         console.log(`TEMP_DIR path ${TEMP_DIR}`);
         // Copy data
-        fs_extra_1.default.copySync(`${rootPath}/package.json`, `${TEMP_DIR}/package.json`);
-        console.log(`Copy done`);
-        console.log(`${backendPath}${inputScript}`);
+        //Fse.copySync(`${rootPath}/package.json`, `${TEMP_DIR}/package.json`);
+        //console.log(`Copy done`);
+        //console.log(`${backendPath}${inputScript}`);
         // Build backend
         //ChildProcess.execSync(
         //  `nexe "${backendPath}${inputScript}" -t windows-x86-14.15.3 -o "${TEMP_DIR}/${exeName}" -r \"${backendPath}/node_modules/{${modules.join(
