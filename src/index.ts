@@ -120,7 +120,7 @@ export async function backendBuild({
   // Copy modules
   for (let i = 0; i < copyModules.length; i++) {
     Fse.copySync(
-      `${backendPath}/node_modules/${copyModules[i]}`,
+      `${backendPath}/node_modules/${copyModules[i]}`, //
       `${TEMP_DIR}/node_modules/${copyModules[i]}`,
     );
   }
