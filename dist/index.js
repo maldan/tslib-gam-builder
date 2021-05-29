@@ -76,7 +76,7 @@ function build({ frontendPath, rootPath, backendPath, modules, copyModules, zipO
     });
 }
 exports.build = build;
-function backendBuild({ workingDir, rootPath, backendPath, modules = [], copyModules = [], zipOut, exeName = 'app.exe', inputScript = '/bin/index.js', }) {
+function backendBuild({ workingDir, rootPath, backendPath, modules = [], copyModules = [], zipOut, exeName = 'app.exe', inputScript = '/bin/index.js', resources = [], }) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log(inputScript);
         const TEMP_DIR = workingDir || `${Os.tmpdir}/gam-tmp/${new Date().getTime()}`.replace(/\\/g, '/');
@@ -98,7 +98,7 @@ function backendBuild({ workingDir, rootPath, backendPath, modules = [], copyMod
             input: `${backendPath}${inputScript}`,
             targets: ['windows-x86-14.15.3'],
             output: `${TEMP_DIR}/${exeName}`,
-            resources: [`${backendPath}/node_modules/{${modules.join(',')}}/**/*`],
+            resources: [`${backendPath}/node_modules/{${modules.join(',')}}/**/*`, ...resources],
         });
         // Copy modules
         for (let i = 0; i < copyModules.length; i++) {
