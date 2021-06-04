@@ -1,3 +1,4 @@
+export { Builder } from './Builder';
 export declare function build({ frontendPath, rootPath, backendPath, modules, copyModules, zipOut, }: {
     frontendPath: string;
     rootPath: string;

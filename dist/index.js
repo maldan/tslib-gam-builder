@@ -31,11 +31,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.backendBuild = exports.build = void 0;
+exports.backendBuild = exports.build = exports.Builder = void 0;
 const fs_extra_1 = __importDefault(require("fs-extra"));
 const Os = __importStar(require("os"));
 const ChildProcess = __importStar(require("child_process"));
 const Nexe = require('nexe');
+var Builder_1 = require("./Builder");
+Object.defineProperty(exports, "Builder", { enumerable: true, get: function () { return Builder_1.Builder; } });
 /*function getFiles(dir: string, files_: string[]) {
   files_ = files_ || [];
   const files = Fse.readdirSync(dir);

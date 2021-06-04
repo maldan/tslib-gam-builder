@@ -2,6 +2,7 @@ import Fse from 'fs-extra';
 import * as Os from 'os';
 import * as ChildProcess from 'child_process';
 const Nexe = require('nexe');
+export { Builder } from './Builder';
 
 /*function getFiles(dir: string, files_: string[]) {
   files_ = files_ || [];
