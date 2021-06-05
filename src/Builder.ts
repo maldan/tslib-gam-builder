@@ -2,11 +2,9 @@ import * as Os from 'os';
 import * as Util from 'util';
 import * as Fse from 'fs-extra';
 import * as Nexe from 'nexe';
-import * as ChildProcess from 'child_process';
 import CopyFiles from 'copyfiles';
 
 const AsyncCopyFiles = Util.promisify(CopyFiles);
-const Exec = Util.promisify(ChildProcess.exec);
 
 export class Builder {
   workingDir: string = '';
@@ -20,6 +18,9 @@ export class Builder {
 
   async copyFile(from: string, to: string): Promise<void> {
     console.log(`Copy from "${from}" to "${to}"`);
+
+    const path = (this.workingDir + to).replace(/\\/g, '/').split('/').slice(0, -1).join('/');
+    await Fse.mkdirp(path);
 
     // @ts-ignore
     await Fse.copyFile(from, this.workingDir + to);
@@ -43,13 +44,12 @@ export class Builder {
       output: config.output,
       cwd: this.workingDir,
       resources: config.resources,
-      //  resources: [`${backendPath}/node_modules/{${modules.join(',')}}/**/*`, ...resources],
     });
   }
 
-  async zip(path: string): Promise<void> {
+  async zip(path: string, folder: string = '/out'): Promise<void> {
     console.log(`Zip to ${path}`);
     const zipdir = require('zip-dir');
-    await zipdir(this.workingDir + '/out', { saveTo: path });
+    await zipdir(this.workingDir + folder, { saveTo: path });
   }
 }

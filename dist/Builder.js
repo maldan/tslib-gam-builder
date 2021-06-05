@@ -36,10 +36,8 @@ const Os = __importStar(require("os"));
 const Util = __importStar(require("util"));
 const Fse = __importStar(require("fs-extra"));
 const Nexe = __importStar(require("nexe"));
-const ChildProcess = __importStar(require("child_process"));
 const copyfiles_1 = __importDefault(require("copyfiles"));
 const AsyncCopyFiles = Util.promisify(copyfiles_1.default);
-const Exec = Util.promisify(ChildProcess.exec);
 class Builder {
     constructor() {
         this.workingDir = '';
@@ -51,6 +49,8 @@ class Builder {
     copyFile(from, to) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log(`Copy from "${from}" to "${to}"`);
+            const path = (this.workingDir + to).replace(/\\/g, '/').split('/').slice(0, -1).join('/');
+            yield Fse.mkdirp(path);
             // @ts-ignore
             yield Fse.copyFile(from, this.workingDir + to);
         });
@@ -73,15 +73,14 @@ class Builder {
                 output: config.output,
                 cwd: this.workingDir,
                 resources: config.resources,
-                //  resources: [`${backendPath}/node_modules/{${modules.join(',')}}/**/*`, ...resources],
             });
         });
     }
-    zip(path) {
+    zip(path, folder = '/out') {
         return __awaiter(this, void 0, void 0, function* () {
             console.log(`Zip to ${path}`);
             const zipdir = require('zip-dir');
-            yield zipdir(this.workingDir + '/out', { saveTo: path });
+            yield zipdir(this.workingDir + folder, { saveTo: path });
         });
     }
 }

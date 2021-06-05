@@ -8,5 +8,5 @@ export declare class Builder {
         output: string;
         resources: string[];
     }): Promise<void>;
-    zip(path: string): Promise<void>;
+    zip(path: string, folder?: string): Promise<void>;
 }
